@@ -5,39 +5,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import android.app.Activity;
-import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import com.zhang.mymusic.domain.Mp3Info;
 import com.zhang.mymusic.downloder.HttpDownloder;
+import com.zhang.mymusic.service.DownloadService;
 import com.zhang.mymusic.xml.Mp3ListContentHandler;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements OnItemClickListener{
 
 	private static final int UPDATE = 1;// 菜单控制常量
 	private static final int ABOUT = 2;
 	private ListView listview;
+	private List<Mp3Info> mp3infolist = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
 		listview = (ListView) findViewById(R.id.list);
+		listview.setOnItemClickListener(this);
 		updateListView();
 	}
 
@@ -75,7 +74,7 @@ public class HomeActivity extends Activity {
 		// 下载基本信息xml
 		String xml = downloaderXML("http://192.168.1.100:8080/mp3/resources.xml");
 		// 解析xml，并且封装成MP3list
-		List<Mp3Info> mp3infolist = parse(xml);
+		 mp3infolist = parse(xml);
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
 		for (Iterator iterator = mp3infolist.iterator(); iterator.hasNext();) {
@@ -125,5 +124,22 @@ public class HomeActivity extends Activity {
 		}
 		return infolist;
 
+	}
+
+	/**
+	 * listview 单击事件
+	 * 
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> adapterview, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		//根据用户点击列表的位置，来响应MP3info对象
+		Mp3Info mp3Info = mp3infolist.get(position);
+//		System.out.println(mp3Info+"zhang");
+		//用意图打开服务，携带MP3对象
+		Intent it = new Intent();
+		it.putExtra("mp3info", mp3Info);
+		it.setClass(this, DownloadService.class);
+		startService(it);
 	}
 }
