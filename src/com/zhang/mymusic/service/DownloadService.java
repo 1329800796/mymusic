@@ -64,9 +64,9 @@ public class DownloadService extends Service {
 			if (result == -1) {
 				resultmessage = "下载失败";
 			} else if (result == 0) {
-				resultmessage = "文件已经存在,不需要重复下载";
-			} else if (result == 1) {
 				resultmessage = "文件下载成功";
+			} else if (result == 1) {
+				resultmessage = "文件已经存在";
 			}
 			// 使用Notification 提示客户下载结果
 			CreateInform(resultmessage);			

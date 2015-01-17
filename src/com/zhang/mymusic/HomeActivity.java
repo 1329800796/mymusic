@@ -23,7 +23,11 @@ import com.zhang.mymusic.domain.Mp3Info;
 import com.zhang.mymusic.downloder.HttpDownloder;
 import com.zhang.mymusic.service.DownloadService;
 import com.zhang.mymusic.xml.Mp3ListContentHandler;
-
+/**
+ * 显示远程服务端数据的界面
+ * @author Administrator
+ *
+ */
 public class HomeActivity extends Activity implements OnItemClickListener{
 
 	private static final int UPDATE = 1;// 菜单控制常量

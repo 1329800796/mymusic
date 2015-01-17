@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zhang.mymusic.domain.Mp3Info;
 
 import android.os.Environment;
 
@@ -30,8 +34,8 @@ public class FileUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public File createSDFile(String fileName,String dir) throws IOException {
-		File file = new File(SDPATH +dir +File.separator+ fileName);
+	public File createSDFile(String fileName, String dir) throws IOException {
+		File file = new File(SDPATH + dir + File.separator + fileName);
 		file.createNewFile();
 		return file;
 	}
@@ -43,7 +47,7 @@ public class FileUtils {
 	 * @return
 	 */
 	public File createSDDir(String dirName) {
-		File dir = new File(SDPATH + dirName+File.separator);
+		File dir = new File(SDPATH + dirName + File.separator);
 		dir.mkdirs();
 		return dir;
 	}
@@ -54,7 +58,7 @@ public class FileUtils {
 	 * @param fileName
 	 * @return
 	 */
-	public boolean isFileExist(String fileName,String path) {
+	public boolean isFileExist(String fileName, String path) {
 		File file = new File(SDPATH + path + File.separator + fileName);
 		return file.exists();
 	}
@@ -73,7 +77,7 @@ public class FileUtils {
 		OutputStream output = null;
 		try {
 			createSDDir(path);
-			file = createSDFile(fileName,path);
+			file = createSDFile(fileName, path);
 			output = new FileOutputStream(file);
 			byte[] buffer = new byte[FILESIZE];
 
@@ -100,6 +104,31 @@ public class FileUtils {
 			}
 		}
 		return file;
+	}
+
+	/**
+	 * 
+	 * 读取sd 卡中的文件以及大小
+	 * 
+	 */
+	public List<Mp3Info> getmp3files(String path) {
+
+		List<Mp3Info> mp3Infos = new ArrayList<Mp3Info>();
+		File file = new File(SDPATH + File.separator + path);
+		File[] files = file.listFiles();
+		for (int i = 0; i < files.length; i++) {
+
+			if (files[i].getName().endsWith("mp3")) {
+				Mp3Info mp3info = new Mp3Info();
+				mp3info.setMp3Name(files[i].getName());
+				mp3info.setMp3Size(files[i].length() + "");
+				mp3Infos.add(mp3info);
+
+			}
+
+		}
+
+		return mp3Infos;
 	}
 
 }
