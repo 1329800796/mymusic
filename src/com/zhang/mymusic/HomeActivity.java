@@ -76,7 +76,7 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 	 */
 	private void updateListView() {
 		// 下载基本信息xml
-		String xml = downloaderXML("http://192.168.1.100:8080/mp3/resources.xml");
+		String xml = downloaderXML("http://192.168.1.103:8080/mp3/resources.xml");
 		// 解析xml，并且封装成MP3list
 		 mp3infolist = parse(xml);
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();

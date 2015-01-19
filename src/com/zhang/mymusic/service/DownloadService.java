@@ -52,7 +52,7 @@ public class DownloadService extends Service {
 		public void run() {
 			// TODO Auto-generated method stub
 			// œ¬‘ÿµÿ÷∑http://192.168.1.100:8080/mp3/a1.mp3
-			String mp3url = "http://192.168.1.100:8080/mp3/" + mp3.getMp3Name();
+			String mp3url = "http://192.168.1.103:8080/mp3/" + mp3.getMp3Name();
 
 			HttpDownloder downloder = new HttpDownloder();
 
