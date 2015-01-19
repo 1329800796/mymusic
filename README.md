@@ -10,4 +10,4 @@
 4.第一次往github 上上传图片。
 1）尝试
 
-![image](https://github.com/1329800796/Mymusic/raw/master/screenshots/m1.png)
+![image](https://github.com/1329800796/Mymusic/raw/master/screenshots/m1.jpg)
