@@ -28,8 +28,11 @@
         
         <activity android:name="com.zhang.mymusic.HomeActivity" >
         </activity>
-        <activity android:name="com.zhang.mymusic.LocalHostActivity" >
+        <activity android:name="com.zhang.mymusic.LocalHostActivity" >           
         </activity>
+        <activity android:name="com.zhang.mymusic.Mp3PlayActivity" >
+            
+        </activity> 
         <service android:name="com.zhang.mymusic.service.DownloadService" >
         </service>
     </application>

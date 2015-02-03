@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import com.zhang.mymusic.domain.Mp3Info;
@@ -16,14 +20,33 @@ import com.zhang.mymusic.utils.FileUtils;
  *
  */
 public class LocalHostActivity extends Activity {
+	
  private ListView listView;
+ private List<Mp3Info> mp3Infos= null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.local_activity);
 		listView = (ListView) findViewById(R.id.list);
-		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapterview, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				if(mp3Infos !=null){
+					Mp3Info mp3info = mp3Infos.get(position);
+					Intent it = new Intent();
+					it.putExtra("mp3info", mp3info);
+					it.setClass(LocalHostActivity.this, Mp3PlayActivity.class);
+					startActivity(it);
+				}   
+				
+				
+				
+			}
+		});
 	}
 	
 	@Override
@@ -31,7 +54,7 @@ public class LocalHostActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onResume();
 			FileUtils  fileUtils = new FileUtils();
-			List<Mp3Info> mp3Infos = fileUtils.getmp3files("mp3/");
+		    mp3Infos = fileUtils.getmp3files("mp3/");
 			
 			List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 			for (Iterator iterator = mp3Infos.iterator(); iterator.hasNext();) {
@@ -43,7 +66,7 @@ public class LocalHostActivity extends Activity {
 				list.add(map);
 			}
 			SimpleAdapter simpleAdapter = new SimpleAdapter(this, list, R.layout.mp3info_item, new String[]{"mp3_name","mp3_size"},new int[]{R.id.mp3_name,R.id.mp3_size});
-//			simpleAdapter.notifyDataSetChanged();
+
 			listView.setAdapter(simpleAdapter);
 		}
 }
