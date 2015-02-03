@@ -1,5 +1,6 @@
 package com.zhang.mymusic.service;
 
+import com.zhang.mymusic.AppConstant;
 import com.zhang.mymusic.HomeActivity;
 import com.zhang.mymusic.R;
 import com.zhang.mymusic.domain.Mp3Info;
@@ -26,7 +27,7 @@ public class DownloadService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		// 获取对象
-		Mp3Info mp3 = (Mp3Info) intent.getSerializableExtra("mp3info");
+		Mp3Info mp3 = (Mp3Info) intent.getSerializableExtra("mp3Info");
 
 		// 下载线程
 		DownloadThead downloadThead = new DownloadThead(mp3);
@@ -52,13 +53,14 @@ public class DownloadService extends Service {
 		public void run() {
 			// TODO Auto-generated method stub
 			// 下载地址http://192.168.1.100:8080/mp3/a1.mp3
-			String mp3url = "http://192.168.1.105:8080/mp3/" + mp3.getMp3Name();
-
+			String mp3url = AppConstant.URL.BASE_URL + mp3.getMp3Name();
+			String lrcurl = AppConstant.URL.BASE_URL + mp3.getLrcName();
 			HttpDownloder downloder = new HttpDownloder();
 
 			// url + sd 卡下载位置+MP3 名字
-			int result = downloder.downFile(mp3url, "mp3/", mp3.getMp3Name()
-					.trim());
+			int result = downloder.downFile(mp3url, "mp3/", mp3.getMp3Name());
+			int lrcresult = downloder
+					.downFile(lrcurl, "mp3/", mp3.getLrcName());
 
 			String resultmessage = null;
 			if (result == -1) {
@@ -69,14 +71,11 @@ public class DownloadService extends Service {
 				resultmessage = "文件已经存在";
 			}
 			// 使用Notification 提示客户下载结果
-			CreateInform(resultmessage);			
+			CreateInform(resultmessage);
 
 		}
 
 	}
-	
-	
-
 
 	public void CreateInform(String resultmessage) {
 		// 定义一个PendingIntent，当用户点击通知时，跳转到某个Activity(也可以发送广播等)

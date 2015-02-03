@@ -107,27 +107,26 @@ public class FileUtils {
 	}
 
 	/**
-	 * 
-	 * 读取sd 卡中的文件以及大小
-	 * 
+	 * 读取目录中的Mp3文件的名字和大小
 	 */
-	public List<Mp3Info> getmp3files(String path) {
-
+	public List<Mp3Info> getMp3Files(String path) {
 		List<Mp3Info> mp3Infos = new ArrayList<Mp3Info>();
 		File file = new File(SDPATH + File.separator + path);
 		File[] files = file.listFiles();
+		FileUtils fileUtils = new FileUtils();
 		for (int i = 0; i < files.length; i++) {
-
 			if (files[i].getName().endsWith("mp3")) {
-				Mp3Info mp3info = new Mp3Info();
-				mp3info.setMp3Name(files[i].getName());
-				mp3info.setMp3Size(files[i].length() + "");
-				mp3Infos.add(mp3info);
-
+				Mp3Info mp3Info = new Mp3Info();
+				mp3Info.setMp3Name(files[i].getName());
+				mp3Info.setMp3Size(files[i].length() + "");
+				String temp [] = mp3Info.getMp3Name().split("\\.");
+				String eLrcName = temp[0] + ".lrc";
+				if(fileUtils.isFileExist(eLrcName, "/mp3")){
+					mp3Info.setLrcName(eLrcName);
+				}
+				mp3Infos.add(mp3Info);
 			}
-
 		}
-
 		return mp3Infos;
 	}
 

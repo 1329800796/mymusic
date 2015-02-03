@@ -35,6 +35,8 @@
         </activity> 
         <service android:name="com.zhang.mymusic.service.DownloadService" >
         </service>
+        <service android:name="com.zhang.mymusic.service.PlayService" >
+        </service>
     </application>
 
 </manifest>

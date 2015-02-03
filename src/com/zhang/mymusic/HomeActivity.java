@@ -139,10 +139,10 @@ public class HomeActivity extends Activity implements OnItemClickListener{
 		// TODO Auto-generated method stub
 		//根据用户点击列表的位置，来响应MP3info对象
 		Mp3Info mp3Info = mp3infolist.get(position);
-//		System.out.println(mp3Info+"zhang");
 		//用意图打开服务，携带MP3对象
 		Intent it = new Intent();
-		it.putExtra("mp3info", mp3Info);
+		it.putExtra("mp3Info", mp3Info);
+		
 		it.setClass(this, DownloadService.class);
 		startService(it);
 	}
